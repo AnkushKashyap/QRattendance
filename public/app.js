@@ -2,11 +2,10 @@
   teacherId: null,
   classes: [],
   session: null,
-  stream: null,
-  detector: null,
-  scanning: false,
   recent: []
 };
+
+let qrScanner = null;
 
 const elements = {
   loginView: document.querySelector('#loginView'),
@@ -24,7 +23,7 @@ const elements = {
   activeSession: document.querySelector('#activeSession'),
   presentCount: document.querySelector('#presentCount'),
   savePath: document.querySelector('#savePath'),
-  video: document.querySelector('#video'),
+  reader: document.querySelector('#reader'),
   scanResult: document.querySelector('#scanResult'),
   scanList: document.querySelector('#scanList'),
   cameraButton: document.querySelector('#cameraButton'),
@@ -155,52 +154,47 @@ async function handleDetectedPayload(rawPayload) {
 }
 
 async function startCamera() {
-  if (!('BarcodeDetector' in window)) {
-    setScanResult('error', '× Camera QR detection is not supported in this browser. Try Chrome or Edge.');
-    return;
-  }
 
-  state.detector = new BarcodeDetector({ formats: ['qr_code'] });
-  state.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-  elements.video.srcObject = state.stream;
-  await elements.video.play();
-  state.scanning = true;
-  scanLoop();
-}
-
-async function scanLoop() {
-  if (!state.scanning || !state.detector || elements.video.readyState < 2) {
-    if (state.scanning) requestAnimationFrame(scanLoop);
-    return;
-  }
-
-  try {
-    const codes = await state.detector.detect(elements.video);
-    if (codes.length > 0) {
-      state.scanning = false;
-      await handleDetectedPayload(codes[0].rawValue);
-      setTimeout(() => {
-        if (state.stream) {
-          state.scanning = true;
-          scanLoop();
-        }
-      }, 1200);
-      return;
+    if (!qrScanner) {
+        qrScanner = new Html5Qrcode("reader");
     }
-  } catch (error) {
-    setScanResult('error', `× ${error.message}`);
-  }
 
-  requestAnimationFrame(scanLoop);
+    await qrScanner.start(
+        {
+            facingMode: "environment"
+        },
+        {
+            fps: 10,
+            qrbox: { width: 250, height: 250 }
+        },
+        async (decodedText) => {
+
+            await handleDetectedPayload(decodedText);
+
+        },
+        () => {
+            // Ignore failed scans
+        }
+    );
+
+    setScanResult("", "Camera is scanning...");
 }
 
-function stopCamera() {
-  state.scanning = false;
-  if (state.stream) {
-    state.stream.getTracks().forEach((track) => track.stop());
-    state.stream = null;
-  }
-  elements.video.srcObject = null;
+async function stopCamera() {
+
+    if (!qrScanner) return;
+
+    try {
+
+        await qrScanner.stop();
+        await qrScanner.clear();
+
+    } catch (e) {
+        console.log(e);
+    }
+
+    qrScanner = null;
+
 }
 
 elements.loginForm.addEventListener('submit', async (event) => {
