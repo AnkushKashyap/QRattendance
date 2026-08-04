@@ -161,20 +161,38 @@ async function startCamera() {
 
     const cameras = await Html5Qrcode.getCameras();
 
-if (cameras.length === 0) {
-    throw new Error("No camera found.");
-}
-
-await qrScanner.start(
-    cameras[0].id,
-    {
-        fps: 10,
-        qrbox: { width: 250, height: 250 }
-    },
-    async (decodedText) => {
-        await handleDetectedPayload(decodedText);
+    if (cameras.length === 0) {
+        throw new Error("No camera found.");
     }
-);
+
+    let cameraId = cameras[0].id;
+
+    const rearCamera = cameras.find(camera =>
+        camera.label.toLowerCase().includes("back") ||
+        camera.label.toLowerCase().includes("rear") ||
+        camera.label.toLowerCase().includes("environment")
+    );
+
+    if (rearCamera) {
+        cameraId = rearCamera.id;
+    }
+
+    console.log("Available Cameras:", cameras);
+    console.log("Using Camera:", cameraId);
+
+    await qrScanner.start(
+        cameraId,
+        {
+            fps: 10,
+            qrbox: { width: 250, height: 250 }
+        },
+        async (decodedText) => {
+            await handleDetectedPayload(decodedText);
+        },
+        () => {
+            // Ignore scan failures
+        }
+    );
 
     setScanResult("", "Camera is scanning...");
 }
