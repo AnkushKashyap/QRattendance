@@ -1,11 +1,12 @@
 {
-    "scripts":  {
-                    "start":  "node server.js",
-                    "dev":  "node server.js"
-                },
-    "dependencies":  {
-                         "@vercel/blob":  "latest",
-                         "mongodb":  "^7.5.0",
-                         "dotenv":  "latest"
-                     }
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js"
+    },
+    "dependencies": {
+        "@vercel/blob": "latest",
+        "dotenv": "latest",
+        "html5-qrcode": "^2.3.8",
+        "mongodb": "^7.5.0"
+    }
 }

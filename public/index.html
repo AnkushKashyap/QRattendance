@@ -93,8 +93,8 @@
           <h2>Scan Student QR</h2>
           <p class="muted">Camera scanning uses the browser Barcode Detector when available. Manual QR text works for local testing.</p>
           <div class="scanner-frame">
-            <video id="video" muted playsinline></video>
-            <div class="scan-corners"></div>
+          <div id="reader"></div>
+          <div class="scan-corners"></div>
           </div>
           <div class="scanner-actions">
             <button class="ghost" id="cameraButton" type="button">Open Camera</button>
@@ -110,6 +110,7 @@
       </section>
     </main>
 
-    <script src="app.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="app.js"></script>
   </body>
 </html>
