@@ -1,0 +1,17 @@
+{
+  "teacherId": "241036009",
+  "classCode": "CSE(2401)",
+  "date": "2026-07-26",
+  "time": "12:50",
+  "createdAt": "2026-08-03T06:45:50.504Z",
+  "updatedAt": "2026-08-03T06:45:50.505Z",
+  "students": [
+    {
+      "rollNumber": "241036004",
+      "batch": "B1",
+      "name": "Ira Kapoor",
+      "scannedAt": "2026-08-03T06:45:50.505Z"
+    }
+  ],
+  "totalPresent": 1
+}

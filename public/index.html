@@ -1,0 +1,115 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JUIT QR Attendance</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="shell">
+      <nav class="topbar">
+        <div class="brand">JUIT</div>
+        <div class="nav-icons">
+          <span aria-hidden="true">●</span>
+          <button class="icon-button" id="themeToggle" type="button" aria-label="Toggle theme">☀</button>
+        </div>
+      </nav>
+
+      <section class="card login-card" id="loginView">
+        <p class="eyebrow">Faculty access</p>
+        <h1>Attendance</h1>
+        <p class="muted">Log in to select a class, set class timing, and scan student QR codes.</p>
+
+        <form id="loginForm" class="form-grid">
+          <label>
+            Teacher ID
+            <input id="teacherId" type="text" autocomplete="username" value="241036009" required />
+          </label>
+          <label>
+            Password
+            <input id="password" type="password" autocomplete="current-password" value="1234" required />
+          </label>
+          <button class="primary" type="submit">Login</button>
+          <p class="status-text" id="loginStatus"></p>
+        </form>
+      </section>
+
+      <section class="dashboard hidden" id="dashboardView">
+        <div class="hero card">
+          <div>
+            <p class="eyebrow">Teacher panel</p>
+            <h1>Attendance QR Scanner</h1>
+            <p class="muted">Only students linked with the selected subject are saved to the JSON attendance file.</p>
+          </div>
+          <button class="ghost" id="logoutButton" type="button">Logout</button>
+        </div>
+
+        <div class="grid-two">
+          <section class="card">
+            <h2>Class Details</h2>
+            <form id="sessionForm" class="form-grid">
+              <label>
+                Subject
+                <select id="classCode" required></select>
+              </label>
+              <div class="row-two">
+                <label>
+                  Date
+                  <input id="classDate" type="date" required />
+                </label>
+                <label>
+                  Time
+                  <input id="classTime" type="time" required />
+                </label>
+              </div>
+              <button class="primary" type="submit">Start Scanner</button>
+            </form>
+          </section>
+
+          <section class="card stats-card">
+            <h2>Live Status</h2>
+            <div class="stat-row">
+              <span>Class</span>
+              <strong id="activeClass">Not selected</strong>
+            </div>
+            <div class="stat-row">
+              <span>Session</span>
+              <strong id="activeSession">--</strong>
+            </div>
+            <div class="stat-row">
+              <span>Present</span>
+              <strong id="presentCount">0</strong>
+            </div>
+            <div class="save-path" id="savePath">JSON file appears after first valid scan.</div>
+          </section>
+        </div>
+
+        <section class="card scanner-panel hidden" id="scannerPanel">
+          <button class="close-button" id="closeScanner" type="button" aria-label="Close scanner">×</button>
+          <h2>Scan Student QR</h2>
+          <p class="muted">Camera scanning uses the browser Barcode Detector when available. Manual QR text works for local testing.</p>
+          <div class="scanner-frame">
+            <video id="video" muted playsinline></video>
+            <div class="scan-corners"></div>
+          </div>
+          <div class="scanner-actions">
+            <button class="ghost" id="cameraButton" type="button">Open Camera</button>
+            <button class="ghost danger" id="stopCameraButton" type="button">Stop Camera</button>
+          </div>
+          <div class="result-toast" id="scanResult">Waiting for QR scan...</div>
+        </section>
+
+        <section class="card">
+          <h2>Recent Scans</h2>
+          <div class="scan-list" id="scanList"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

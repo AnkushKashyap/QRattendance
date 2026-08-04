@@ -1,0 +1,11 @@
+﻿{
+    "scripts":  {
+                    "start":  "node server.js",
+                    "dev":  "node server.js"
+                },
+    "dependencies":  {
+                         "@vercel/blob":  "latest",
+                         "mongodb":  "^7.5.0",
+                         "dotenv":  "latest"
+                     }
+}

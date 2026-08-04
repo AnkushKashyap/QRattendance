@@ -1,0 +1,15 @@
+﻿{
+  "ABC(1234)": [
+    { "rollNumber": "241036001", "batch": "B1", "name": "Aarav Sharma" },
+    { "rollNumber": "241036002", "batch": "B1", "name": "Diya Mehta" },
+    { "rollNumber": "241036003", "batch": "B2", "name": "Kabir Singh" }
+  ],
+  "CSE(2401)": [
+    { "rollNumber": "241036004", "batch": "B1", "name": "Ira Kapoor" },
+    { "rollNumber": "241036005", "batch": "B2", "name": "Neil Verma" }
+  ],
+  "MTH(1102)": [
+    { "rollNumber": "241036006", "batch": "B1", "name": "Riya Nair" },
+    { "rollNumber": "241036007", "batch": "B3", "name": "Vivaan Rao" }
+  ]
+}
