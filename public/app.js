@@ -159,23 +159,22 @@ async function startCamera() {
         qrScanner = new Html5Qrcode("reader");
     }
 
-    await qrScanner.start(
-        {
-            facingMode: "environment"
-        },
-        {
-            fps: 10,
-            qrbox: { width: 250, height: 250 }
-        },
-        async (decodedText) => {
+    const cameras = await Html5Qrcode.getCameras();
 
-            await handleDetectedPayload(decodedText);
+if (cameras.length === 0) {
+    throw new Error("No camera found.");
+}
 
-        },
-        () => {
-            // Ignore failed scans
-        }
-    );
+await qrScanner.start(
+    cameras[0].id,
+    {
+        fps: 10,
+        qrbox: { width: 250, height: 250 }
+    },
+    async (decodedText) => {
+        await handleDetectedPayload(decodedText);
+    }
+);
 
     setScanResult("", "Camera is scanning...");
 }
@@ -233,7 +232,14 @@ elements.cameraButton.addEventListener('click', async () => {
     await startCamera();
     setScanResult('', 'Camera is scanning for QR codes...');
   } catch (error) {
-    setScanResult('error', `× ${error.message}`);
+
+    console.error("Camera Error:", error);
+
+    setScanResult(
+      'error',
+      `Camera Error:
+${JSON.stringify(error, Object.getOwnPropertyNames(error), 2)}`
+    );
   }
 });
 
