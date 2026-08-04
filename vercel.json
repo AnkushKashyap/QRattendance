@@ -1,9 +1,1 @@
-﻿{
-   "$schema":
-   "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "api/**/*.js": {
-      "includeFiles": "data/rosters/students.json"
-    }
-  }
-}
+﻿{}
