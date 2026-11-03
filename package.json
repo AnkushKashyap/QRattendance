@@ -3,6 +3,9 @@
         "start": "node server.js",
         "dev": "node server.js"
     },
+    "engines": {
+        "node": ">=20.19.0"
+    },
     "dependencies": {
         "@vercel/blob": "latest",
         "dotenv": "latest",
