@@ -25,6 +25,9 @@ const elements = {
   savePath: document.querySelector('#savePath'),
   reader: document.querySelector('#reader'),
   scanResult: document.querySelector('#scanResult'),
+  scanSuccess: document.querySelector('#scanSuccess'),
+  scannedStudentPhoto: document.querySelector('#scannedStudentPhoto'),
+  photoFallback: document.querySelector('#photoFallback'),
   scanList: document.querySelector('#scanList'),
   cameraButton: document.querySelector('#cameraButton'),
   stopCameraButton: document.querySelector('#stopCameraButton'),
@@ -102,6 +105,36 @@ function updateSessionSummary() {
 function setScanResult(type, message) {
   elements.scanResult.className = `result-toast ${type || ''}`.trim();
   elements.scanResult.textContent = message;
+
+  if (type !== 'success') {
+    elements.scanSuccess.classList.add('hidden');
+  }
+}
+
+function showScannedStudent(student) {
+  const initials = student.name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase();
+  const photoPath = student.photo || `/student-photos/${encodeURIComponent(student.rollNumber)}.jpg`;
+
+  elements.photoFallback.textContent = initials;
+  elements.photoFallback.classList.remove('hidden');
+  elements.scannedStudentPhoto.classList.add('hidden');
+  elements.scannedStudentPhoto.alt = `${student.name}'s photo`;
+  elements.scannedStudentPhoto.onload = () => {
+    elements.scannedStudentPhoto.classList.remove('hidden');
+    elements.photoFallback.classList.add('hidden');
+  };
+  elements.scannedStudentPhoto.onerror = () => {
+    elements.scannedStudentPhoto.classList.add('hidden');
+    elements.photoFallback.classList.remove('hidden');
+  };
+  elements.scannedStudentPhoto.src = photoPath;
+  elements.scanSuccess.classList.remove('hidden');
 }
 
 function addScanItem(type, title, subtitle) {
@@ -139,6 +172,7 @@ async function saveScan(rawPayload) {
   const label = `${result.student.name} (${result.student.rollNumber})`;
   const duplicateText = result.duplicate ? 'Already marked present.' : 'Attendance marked.';
   setScanResult('success', `✓ ${duplicateText}`);
+  showScannedStudent(result.student);
   addScanItem('success', label, `${result.student.batch} · ${duplicateText}`);
   elements.presentCount.textContent = result.totalPresent;
   elements.savePath.textContent = `Saved in ${result.file}`;

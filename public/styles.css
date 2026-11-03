@@ -376,6 +376,48 @@ video {
   color: var(--danger);
 }
 
+.scan-success {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 118px;
+  height: 138px;
+  margin: 24px auto 4px;
+}
+
+.scan-success img,
+.photo-fallback {
+  width: 104px;
+  height: 104px;
+  border: 3px solid var(--success);
+  border-radius: 50%;
+  background: var(--panel-soft);
+  object-fit: cover;
+}
+
+.photo-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--text);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.success-tick {
+  position: absolute;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--bg);
+  border-radius: 50%;
+  background: var(--success);
+  color: #072a18;
+  font-size: 22px;
+  font-weight: 900;
+}
+
 .scan-list {
   display: grid;
   gap: 12px;

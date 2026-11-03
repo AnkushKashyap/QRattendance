@@ -100,6 +100,11 @@
             <button class="ghost" id="cameraButton" type="button">Open Camera</button>
             <button class="ghost danger" id="stopCameraButton" type="button">Stop Camera</button>
           </div>
+          <div class="scan-success hidden" id="scanSuccess" aria-live="polite">
+            <img id="scannedStudentPhoto" alt="" />
+            <div class="photo-fallback" id="photoFallback" aria-hidden="true"></div>
+            <div class="success-tick">✓</div>
+          </div>
           <div class="result-toast" id="scanResult">Waiting for QR scan...</div>
         </section>
 
